@@ -49,44 +49,34 @@ class Applicazione:
         finestra_inserisci = tk.Toplevel(self.root)
         finestra_inserisci.title("Inserimento")
 
-        lblGuest = tk.Label(finestra_inserisci, text="Guest", font=("Arial", 16), fg="blue", bg="yellow")
-        lblGuest.grid(column=1, row=10)
+        # Creazione Bottone ApriGuest
+        btnGuest = Button(finestra_inserisci, text="Guest", command=self.guest)
+        btnGuest.grid(column=0, row=0)
+        btnGuest.configure(font=("Arial", 16), fg="blue", bg="yellow", pady=10, padx=5,  width=20, height=2)
 
-        # Crea un bottone nella finestra principale
-        btnGuest = Button(finestra_inserisci, text="Clicami", command=self.guest)
-        btnGuest.grid(column=50, row=10)
-        btnGuest.configure(pady=10, padx=5, font=('Helvetica', 15), width=10, height=2)
+        # Creazione Bottone ApriStudenti
+        btnStudenti = Button(finestra_inserisci, text="Studente", command=self.studenti)
+        btnStudenti.grid(column=0, row=1)
+        btnStudenti.configure(font=("Arial", 16), fg="blue", bg="yellow", pady=10, padx=5,  width=20, height=2)
 
-        lblStudenti = tk.Label(finestra_inserisci, text="Studenti", font=("Arial", 16), fg="blue", bg="yellow")
-        lblStudenti.grid(column=1, row=50)
+        # Creazione Bottone ApriDocente
+        btnDocente = Button(finestra_inserisci, text="Docente", command=self.docente)
+        btnDocente.grid(column=0, row=2)
+        btnDocente.configure(font=("Arial", 16), fg="blue", bg="yellow", pady=10, padx=5,  width=20, height=2)
 
-        # Crea un bottone "Clicami" nella finestra principale
-        btnStudenti = Button(finestra_inserisci, text="Clicami", command=self.studenti)
-        btnStudenti.grid(column=50, row=50)
-        btnStudenti.configure(pady=10, padx=5, font=('Helvetica', 15), width=10, height=2)
-
-        # teacher
-        lblProfessori = tk.Label(finestra_inserisci, text="Professori", font=("Arial", 16), fg="blue", bg="yellow")
-        lblProfessori.grid(column=1, row=100)
-
-        # Crea un bottone "Clicami" nella finestra principale
-        btnProfessori = Button(finestra_inserisci, text="Clicami", command=self.professori)
-        btnProfessori.grid(column=50, row=100)
-        btnProfessori.configure(pady=10, padx=5, font=('Helvetica', 15), width=10, height=2)
-
-        # Crea un bottone "Clicami" nella finestra principale
+        # Creazione Bottone ApriEsci
         btnEsci = tk.Button(finestra_inserisci, text="Exit", command=finestra_inserisci.destroy)
-        btnEsci.grid(column=50, row=150)
-        btnEsci.configure(pady=10, padx=5, font=('Helvetica', 15), width=5, height=1, fg="red")
+        btnEsci.grid(column=0, row=3)
+        btnEsci.configure(font=("Arial", 16), fg="white", bg="red", pady=10, padx=5,  width=20, height=2)
 
     # Quando clicchi il bottone viene creata la finestra Guest
     def guest(self):
         finestra_Guest = tk.Toplevel(self.root)
-        finestra_Guest.title("Nuova Finestra")
+        finestra_Guest.title("Inserimento | Guest")
 
         # Crea e posiziona le label e i textbox
         labels = ["Nome", "Cognome", "Anno", "Tipo", "Doc"]
-        self.textboxes = []
+        self.textboxes_guest = []
 
         for i, label_text in enumerate(labels):
             lbl = tk.Label(finestra_Guest, text=label_text, font=("Arial", 16), fg="blue")
@@ -95,7 +85,7 @@ class Applicazione:
             textbox = tk.Entry(finestra_Guest, width=30)
             textbox.grid(column=50, row=i * 50 + 10)
 
-            self.textboxes.append(textbox)
+            self.textboxes_guest.append(textbox)
 
         # Crea un bottone "Exit" nella finestra
         BtnEsci = tk.Button(finestra_Guest, text="Exit", command=finestra_Guest.destroy)
@@ -109,17 +99,19 @@ class Applicazione:
 
     def salvaGuest(self):
         contenuto_caselle = []
-        for textbox in self.textboxes:
+        labels = ["Nome", "Cognome", "Anno", "Matricola", "Corso"]
+        for i, textbox in enumerate(self.textboxes_guest):
             testo_inserito = textbox.get()
-            contenuto_caselle.append(testo_inserito)
+            contenuto_caselle.append(f"{labels[i]} [{testo_inserito}]")
 
-        # Puoi fare qualcosa con il contenuto delle caselle, ad esempio, stamparlo sulla console
-        print("Contenuto delle caselle:", contenuto_caselle)
+        print("Contenuto delle caselle Guest:")
+        for item in contenuto_caselle:
+            print(item)
 
     # Creazione finestra studenti
     def studenti(self):
         finestra_studenti = tk.Toplevel(self.root)
-        finestra_studenti.title("Nuova Finestra Studenti")
+        finestra_studenti.title("Inserimento | Studente")
 
         # Crea e posiziona le label e i textbox per gli studenti
         labels = ["Nome", "Cognome", "Anno", "Matricola", "Corso"]
@@ -153,47 +145,47 @@ class Applicazione:
             testo_inserito = textbox.get()
             contenuto_caselle.append(f"{labels[i]} [{testo_inserito}]")
 
-        print("Contenuto delle caselle Studenti:")
+        print("Contenuto delle caselle Studente:")
         for item in contenuto_caselle:
             print(item)
 
     # Creazione finestra professori
-    def professori(self):
-        finestra_professori = tk.Toplevel(self.root)
-        finestra_professori.title("Nuova Finestra Professori")
+    def docente(self):
+        finestra_docente = tk.Toplevel(self.root)
+        finestra_docente.title("Inserimento | Docente")
 
         # Crea e posiziona le label e i textbox per i professori
         labels = ["Nome", "Cognome", "Anno", "CodFis", "Facoltà"]
-        self.textboxes_professori = []
+        self.textboxes_docente = []
 
         for i, label_text in enumerate(labels):
-            lbl = tk.Label(finestra_professori, text=label_text, font=("Arial", 16), fg="blue")
+            lbl = tk.Label(finestra_docente, text=label_text, font=("Arial", 16), fg="blue")
             lbl.grid(column=1, row=i * 50 + 10)
 
-            textbox = tk.Entry(finestra_professori, width=30)
+            textbox = tk.Entry(finestra_docente, width=30)
             textbox.grid(column=50, row=i * 50 + 10)
 
-            self.textboxes_professori.append(textbox)
+            self.textboxes_docente.append(textbox)
 
         # Crea un bottone "Exit" nella finestra
-        btnEsci = tk.Button(finestra_professori, text="Exit", command=finestra_professori.destroy)
+        btnEsci = tk.Button(finestra_docente, text="Exit", command=finestra_docente.destroy)
         btnEsci.grid(column=50, row=250)
         btnEsci.configure(pady=10, padx=5, font=('Helvetica', 15), width=5, height=1, fg="red")
 
         # Crea un pulsante "Salva" per salvare il testo dei textbox per i professori
-        btnSalvaP = tk.Button(finestra_professori, text="Salva", command=self.salvaProfessori)
-        btnSalvaP.grid(column=55, row=250)
-        btnSalvaP.configure(pady=10, padx=5, font=('Helvetica', 15), width=5, height=1, fg="red")
+        btnSalvaD = tk.Button(finestra_docente, text="Salva", command=self.salvaDocente)
+        btnSalvaD.grid(column=55, row=250)
+        btnSalvaD.configure(pady=10, padx=5, font=('Helvetica', 15), width=5, height=1, fg="red")
 
     # Funzione per salvare il testo dei textbox per i professori
-    def salvaProfessori(self):
+    def salvaDocente(self):
         contenuto_caselle = []
         labels = ["Nome", "Cognome", "Anno", "Matricola", "Corso"]
-        for i, textbox in enumerate(self.textboxes_studenti):
+        for i, textbox in enumerate(self.textboxes_docente):
             testo_inserito = textbox.get()
             contenuto_caselle.append(f"{labels[i]} [{testo_inserito}]")
 
-        print("Contenuto delle caselle Studenti:")
+        print("Contenuto delle caselle Docente:")
         for item in contenuto_caselle:
             print(item)
 
