@@ -1,6 +1,6 @@
 from tkinter import Frame, Button, END
 import tkinter as tk
-from main import main
+import main
 
 
 class Applicazione:
@@ -237,27 +237,27 @@ class Applicazione:
 
     #                                   Inizio Della Finestra Cerca Email
     def apriCercaEmail(self):
-        nuova_finestra = tk.Toplevel(self.root)
-        nuova_finestra.title("Cerca Email")
+        finestra_cercaEmail = tk.Toplevel(self.root)
+        finestra_cercaEmail.title("Cerca Email")
 
-        lblAnno1 = tk.Label(nuova_finestra, text="Inserisci l'anno di partenza", font=("Arial", 16), fg="blue",
+        lblAnno1 = tk.Label(finestra_cercaEmail, text="Inserisci l'anno di partenza", font=("Arial", 16), fg="blue",
                             bg="yellow")
         lblAnno1.grid(column=1, row=1)
-        lblAnno2 = tk.Label(nuova_finestra, text="Inserisci l'anno di partenza", font=("Arial", 16), fg="blue",
+        lblAnno2 = tk.Label(finestra_cercaEmail, text="Inserisci l'anno di partenza", font=("Arial", 16), fg="blue",
                             bg="yellow")
         lblAnno2.grid(column=1, row=2)
 
-        eAnno1 = tk.Entry(nuova_finestra, width=30)
+        eAnno1 = tk.Entry(finestra_cercaEmail, width=30)
         eAnno1.grid(column=2, row=1)
-        eAnno2 = tk.Entry(nuova_finestra, width=30)
+        eAnno2 = tk.Entry(finestra_cercaEmail, width=30)
         eAnno2.grid(column=2, row=2)
 
         # Crea un bottone per eliminare l'utente
-        btnVedi = Button(nuova_finestra, text="Vedi email", command=self.cercaEmail)
+        btnVedi = Button(finestra_cercaEmail, text="Vedi email", command=self.cercaEmail)
         btnVedi.grid(column=2, row=10)
         btnVedi.configure(pady=10, padx=5, font=('Helvetica', 15), width=10, height=2)
 
-        btnExit = tk.Button(nuova_finestra, text="Exit", command=nuova_finestra.destroy)
+        btnExit = tk.Button(finestra_cercaEmail, text="Exit", command=finestra_cercaEmail.destroy)
         btnExit.grid(column=5, row=20)
         btnExit.configure(pady=10, padx=5, font=('Helvetica', 15), width=5, height=1, fg="red")
 
@@ -271,7 +271,7 @@ class Applicazione:
 
     #                                   Inizio delle funzioni dei bottoni
     def inserisci(self):
-        pass
+        print(self.m.main().prova)
 
     def elimina(self):
         pass
