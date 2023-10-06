@@ -77,16 +77,17 @@ def inserisci(iscritti):
 
 
 # Metodo per eliminare un iscritto dalla lista
-def elimina(iscritti):
-    email = input('Email: ')
-
+def elimina(iscritti, mail=""):
+    #self.email = input('Email: ')
+    email = mail
+    print('fatto')
     if email in iscritti:
         del iscritti[email]
 
 
 # Metodo per cercare il CF (Codice Fiscale) di docenti di un dato dipartimento
-def cerca_cf(iscritti):
-    dip = input('Dipartimento: ')
+def cerca_cf(iscritti, dip=""):
+    #dip = input('Dipartimento: ')
 
     for email in iscritti:
         if isinstance(iscritti[email], Docente):
@@ -95,7 +96,7 @@ def cerca_cf(iscritti):
 
 
 # Metodo per cercare email di studenti in un intervallo di anni
-def cerca_email(iscritti):
+def cerca_email(iscritti, anno1=0, anno2=0):
     try:
         anno1 = int(input('Da (incluso): '))
         anno2 = int(input('A (escluso): '))
