@@ -79,9 +79,10 @@ def inserisci(iscritti):
 # Metodo per eliminare un iscritto dalla lista
 def elimina(iscritti, mail=""):
     #self.email = input('Email: ')
-    email = mail
-    print('fatto')
-    if email in iscritti:
+    email = mail  # istanziamo mail in una variabile locale
+    print("Email: ", email, "\n", "Iscritto: ", iscritti)  # Print necessario per visualizzare il corretto passaggio delle Mail e Iscritti
+    if email in iscritti.keys():
+        print("Sono dentro l'if!")
         del iscritti[email]
 
 

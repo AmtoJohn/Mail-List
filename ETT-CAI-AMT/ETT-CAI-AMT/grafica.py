@@ -1,7 +1,8 @@
 from tkinter import Frame, Button, END
 import tkinter as tk
 import main
-# Amto Ettore Cai N1
+from iscritto import Utente
+
 
 class Applicazione:
     def __init__(self, root):
@@ -53,41 +54,27 @@ class Applicazione:
         # Creazione Bottone ApriGuest
         btnGuest = Button(finestra_inserisci, text="Guest", command=self.guest)
         btnGuest.grid(column=0, row=0)
-        btnGuest.configure(font=("Arial", 16), fg="blue", bg="yellow", pady=10, padx=5,  width=20, height=2)
+        btnGuest.configure(font=("Arial", 16), fg="blue", bg="yellow", pady=10, padx=5, width=20, height=2)
 
         # Creazione Bottone ApriStudenti
         btnStudenti = Button(finestra_inserisci, text="Studente", command=self.studenti)
         btnStudenti.grid(column=0, row=1)
-        btnStudenti.configure(font=("Arial", 16), fg="blue", bg="yellow", pady=10, padx=5,  width=20, height=2)
+        btnStudenti.configure(font=("Arial", 16), fg="blue", bg="yellow", pady=10, padx=5, width=20, height=2)
 
         # Creazione Bottone ApriDocente
         btnDocente = Button(finestra_inserisci, text="Docente", command=self.docente)
         btnDocente.grid(column=0, row=2)
-        btnDocente.configure(font=("Arial", 16), fg="blue", bg="yellow", pady=10, padx=5,  width=20, height=2)
+        btnDocente.configure(font=("Arial", 16), fg="blue", bg="yellow", pady=10, padx=5, width=20, height=2)
 
         # Creazione Bottone ApriEsci
         btnEsci = tk.Button(finestra_inserisci, text="Exit", command=finestra_inserisci.destroy)
         btnEsci.grid(column=0, row=3)
-        btnEsci.configure(font=("Arial", 16), fg="white", bg="red", pady=10, padx=5,  width=20, height=2)
+        btnEsci.configure(font=("Arial", 16), fg="white", bg="red", pady=10, padx=5, width=20, height=2)
 
     # Quando clicchi il bottone viene creata la finestra Guest
     def guest(self):
         finestra_Guest = tk.Toplevel(self.root)
         finestra_Guest.title("Inserimento | Guest")
-        # vediamo se toglierlo poi
-        #frame1 = Frame(finestra_Guest)
-        #frame1.pack()
-        #
-        #lblEmail = tk.Label(frame1, text="Email", font=("Arial", 16), fg="blue")
-        #lblEmail.grid(column=0, row=0)
-        #eEmail = tk.Entry(frame1, width=30)
-        #eEmail.grid(column=1, row=0)
-        #btnAggMail = tk.Button(frame1, text="Aggiungi")
-        #btnAggMail.grid(column=2, row=0)
-        #btnAggMail.configure(pady=10, padx=5, font=('Helvetica', 15), width=5, height=1, fg="red")
-
-        frame2 = Frame(finestra_Guest)
-        frame2.pack()
 
         # Crea e posiziona le label e i textbox
         labels = ["Email", "Nome", "Cognome", "Anno", "Doc"]
@@ -112,6 +99,9 @@ class Applicazione:
         btnSalvaG.grid(column=55, row=250)
         btnSalvaG.configure(pady=10, padx=5, font=('Helvetica', 15), width=5, height=1, fg="red")
 
+        self.visua = tk.Text(finestra_Guest)
+        self.visua.grid(column=10, row=300)
+
     def salvaGuest(self):
         contenuto_caselle = []
         labels = ["Email", "Nome", "Cognome", "Anno", "Doc"]
@@ -119,13 +109,20 @@ class Applicazione:
             testo_inserito = textbox.get()
             contenuto_caselle.append(f"{labels[i]} [{testo_inserito}]")
 
-        mail = contenuto_caselle[0]
-        print("Contenuto delle caselle Guest:")
+        # Stampa ogni estratto di contenuto_caselle di Guest in visua
         for item in contenuto_caselle:
             print(item)
 
+        # Caricamento dei dati di Guest nel dizionario iscritti della classe
+        mail = contenuto_caselle[0]
+        # Nome, Cognome, Anno, Doc, Tipo
+        self.iscritti[mail] = self.m.Guest(contenuto_caselle[1], contenuto_caselle[2], contenuto_caselle[3], contenuto_caselle[4])  # Inserimento oggetto Guest presa la mail
+        print("Iscritto Aggiunto! \n", self.iscritti[mail].__str__())
 
-        #self.iscritti[mail
+        # Pulisce le textbox quando si clicca il bottone salva
+        for textbox in self.textboxes_guest:
+            textbox.delete(0, tk.END)
+
 
     # Creazione finestra studenti
     def studenti(self):
@@ -212,12 +209,15 @@ class Applicazione:
 
     #                                   Inizio Della Finestra Elimina
     def apriElimina(self):
+        # Creazione TopLevel Elimina
         finestra_Elimina = tk.Toplevel(self.root)
         finestra_Elimina.title("Elimina")
 
+        # Creazione Label Mail
         lblMail = tk.Label(finestra_Elimina, text="Inserisci Email", font=("Arial", 16), fg="blue", bg="yellow")
         lblMail.grid(column=0, row=0)
 
+        # Creazione Entry Mail
         self.eEmail = tk.Entry(finestra_Elimina, width=30)
         self.eEmail.grid(column=1, row=0)
 
@@ -226,6 +226,7 @@ class Applicazione:
         btnElimina.grid(column=2, row=0)
         btnElimina.configure(pady=10, padx=5, font=('Helvetica', 15), width=5, height=1)
 
+        # Crea bottone Exit
         btnExit = tk.Button(finestra_Elimina, text="Exit", command=finestra_Elimina.destroy)
         btnExit.grid(column=3, row=0)
         btnExit.configure(pady=10, padx=5, font=('Helvetica', 15), width=5, height=1, fg="white", bg="red")
@@ -258,13 +259,14 @@ class Applicazione:
     def apriCercaEmail(self):
         finestra_cercaEmail = tk.Toplevel(self.root)
         finestra_cercaEmail.title("Cerca Email")
-
-        lblAnno1 = tk.Label(finestra_cercaEmail, text="Inserisci l'anno di partenza", font=("Arial", 16), fg="blue",
-                            bg="yellow")
-        lblAnno1.grid(column=0, row=0)
-        lblAnno2 = tk.Label(finestra_cercaEmail, text="Inserisci l'anno di fine", font=("Arial", 16), fg="blue",
-                            bg="yellow")
-        lblAnno2.grid(column=0, row=1)
+        
+        lblAnno1 = self.creaLabel(finestra_cercaEmail, "Da ")
+        #lblAnno1 = tk.Label(finestra_cercaEmail, text="Inserisci l'anno di partenza", font=("Arial", 16), fg="blue",
+        #                    bg="yellow")
+        #lblAnno1.grid(column=0, row=0)
+        #lblAnno2 = tk.Label(finestra_cercaEmail, text="Inserisci l'anno di fine", font=("Arial", 16), fg="blue",
+        #                    bg="yellow")
+        #lblAnno2.grid(column=0, row=1)
 
         self.eAnno1 = tk.Entry(finestra_cercaEmail, width=30)
         self.eAnno1.grid(column=1, row=0)
@@ -276,18 +278,28 @@ class Applicazione:
         btnVedi.grid(column=2, row=0)
         btnVedi.configure(pady=10, padx=5, font=('Helvetica', 13), width=5, height=1)
 
-        btnExit = tk.Button(finestra_cercaEmail, text="Exit", command=finestra_cercaEmail.destroy)
-        btnExit.grid(column=2, row=1)
-        btnExit.configure(pady=10, padx=5, font=('Helvetica', 15), width=5, height=1, fg="white", bg="red")
+        self.creaExit(finestra_cercaEmail, 2, 1)
 
     #                                   Fine Della Cerca Email
 
     #                                   Inizio delle funzioni dei bottoni
-    def inserisci(self):
-        pass
+
+    # Crea Label, attributi (finestra, testo, colonna, riga, {font, color, bgColor - set di default}
+    def creaLabel(self, finestra, testo, colonna, riga, font=("Arial", 16), color="blue", bgColor="yellow"):
+        label = tk.Label(finestra, text=testo, font=font, fg=color, bg=bgColor)  # Creazione Label + configurazione grafica(colori,grandezza...)
+        label.grid(column=colonna, row=riga)  # Posizionamento sulla finestra
+        return label
+
+    def creaExit(self, finestra, colonna, riga):  # Funzione che Crea bottoni Exit con Attributi
+        btnExit = tk.Button(finestra, text="Exit", command=finestra.destroy)  # Creazione Bottone - Testo e comando da eseguire
+        btnExit.grid(column=colonna, row=riga)  # Posizionamento sulla finestra
+        btnExit.configure(pady=10, padx=5, font=('Helvetica', 15), width=5, height=1, fg="white", bg="red")  # Configurazione grafica(colori, grandezza)
 
     def elimina(self):
-        print(self.m.elimina(self.iscritti, self.eEmail.get()))
+        print('Elimina:')
+        for key in self.iscritti:
+            print(key)
+        self.m.elimina(self.iscritti, self.eEmail.get())
 
     def cercaCF(self):
         self.m.cerca_cf(self.iscritti, self.eDip.get())
