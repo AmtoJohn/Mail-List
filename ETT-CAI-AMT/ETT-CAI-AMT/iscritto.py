@@ -6,7 +6,7 @@ from utente import Utente
 class Guest(Utente):
 
     # Costruttore
-    def __init__(self, nome, cognome, anno, doc, email=""):
+    def __init__(self, nome, cognome, anno, doc, email,):
         Utente.__init__(self, nome, cognome, anno)
         self.__tipo = tipo
         self.__doc = doc
@@ -27,7 +27,7 @@ class Guest(Utente):
 
     # ToString
     def __str__(self):
-        return Utente.__str__(self) + '\n: ' + self.__email + '\n: + self.__doc + '\n'
+        Utente.__str__(self) + '\n: ' + self.__email + '\n: ' + self.__doc + '\n '
 
 
 # Creazione Classe Studente
